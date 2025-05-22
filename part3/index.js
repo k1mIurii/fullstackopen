@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
 
 morgan(function (tokens, req, res) {
   return [
@@ -13,6 +14,7 @@ morgan(function (tokens, req, res) {
 })
 
 app.use(express.json())
+app.use(cors())
 
 morgan.token('body', (req) => {
   return req.body && Object.keys(req.body).length ? JSON.stringify(req.body) : '';
