@@ -15,6 +15,7 @@ morgan(function (tokens, req, res) {
 
 app.use(express.json())
 app.use(cors())
+app.use(express.static('dist'))
 
 morgan.token('body', (req) => {
   return req.body && Object.keys(req.body).length ? JSON.stringify(req.body) : '';
