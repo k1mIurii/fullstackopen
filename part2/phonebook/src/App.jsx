@@ -49,6 +49,12 @@ const App = () => {
           }, 3000)
           setPersons(persons.concat(returnedPerson));
         })
+        .catch(error => {
+          setError(error.response.data.error)
+          setTimeout(() => {
+            setError(null)
+          }, 3000)
+        })
     } else {
       let result = confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
       if (result) {
