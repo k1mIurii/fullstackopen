@@ -4,8 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build:ui": "npm install && rm -rf dist && cd ../phonebook && npm run build && cp -r dist ../../part3",
-    "deploy:full": "npm run build:ui && git add . && git commit -m 'test' git push",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
