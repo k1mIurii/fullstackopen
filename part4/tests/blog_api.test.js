@@ -5,6 +5,7 @@ const app = require('../app')
 const assert = require('node:assert')
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
+const { update } = require('lodash')
 
 const api = supertest(app)
 
@@ -78,6 +79,42 @@ test('Missing title or url produces 400', async () => {
   const blogsFromDB = await Blog.find({})
   console.log(blogsFromDB.length)
   assert.strictEqual(blogsFromDB.length, helper.blogs.length)
+})
+
+test('Delete by id', async () => {
+  const blogsInDb = await helper.blogsFromDb()
+  const toDelete = blogsInDb[0]
+
+  const response = await api
+    .delete(`/api/blogs/${toDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsFromDb()
+  const titles = blogsAtEnd.map(n => n.title)
+
+  assert(!titles.includes(toDelete.title))
+  assert.strictEqual(blogsAtEnd.length, helper.blogs.length - 1)
+})
+
+test('Update', async () => {
+  const inital = await helper.blogsFromDb()
+  const toUpdate = inital[0]
+
+  const updated = {
+    title: 'Title',
+    author: 'Author',
+    url: 'https://url.com',
+    likes: 0
+  }
+  const response = await api
+    .put(`/api/blogs/${toUpdate.id}`)
+    .send(updated)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  updated['id'] = toUpdate.id
+
+  assert.deepStrictEqual(updated, response.body)
 })
 
 after(async () => {
