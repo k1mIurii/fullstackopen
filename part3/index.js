@@ -9,7 +9,7 @@ const errorHandler = (error, request ,response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
-    return response.status(400).send({error: 'malformatted id'})
+    return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
@@ -32,7 +32,7 @@ app.use(cors())
 app.use(express.static('dist'))
 
 morgan.token('body', (req) => {
-  return req.body && Object.keys(req.body).length ? JSON.stringify(req.body) : '';
+  return req.body && Object.keys(req.body).length ? JSON.stringify(req.body) : ''
 })
 
 app.use(morgan(function (tokens, req, res) {
@@ -54,7 +54,7 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-  const now = new Date();
+  const now = new Date()
   const html = `<p>Phonebook has info for ${1} people</p>\n<p>${now.toString()}</p>`
   response.send(html)
 })
@@ -85,7 +85,7 @@ app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body.name) {
-    return response.status(400).json({error: 'content missing'});
+    return response.status(400).json({ error: 'content missing' })
   }
 
   const person = new Person({
