@@ -46,7 +46,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setError(`Wrong credentials`)
+      setError('Wrong credentials')
       setTimeout(() => {
         setError(null)
       }, 5000)
@@ -77,7 +77,7 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(prevBlogs =>
           prevBlogs.map(b =>
-            b.id === returnedBlog.id ? {...b, likes: returnedBlog.likes} : b
+            b.id === returnedBlog.id ? { ...b, likes: returnedBlog.likes } : b
           )
         )
       })
@@ -85,10 +85,7 @@ const App = () => {
 
   const handleRemove = (blog) => {
     if (confirm(`Remove blog ${blog.title} by ${blog.author}.`)) {
-      blogService.deleteBlog(blog)
-      .then(() =>
-        setBlogs(prevBlogs => prevBlogs.filter(e => e.id !== blog.id))
-      )
+      blogService.deleteBlog(blog).then(() => setBlogs(prevBlogs => prevBlogs.filter(e => e.id !== blog.id)))
     }
   }
 
@@ -119,7 +116,7 @@ const App = () => {
               createBlog={addBlog}
             />
           </Togglable>
-          {blogs.map(blog=>
+          {blogs.map( blog =>
             <Blog
               key={blog.id}
               blog={blog}
