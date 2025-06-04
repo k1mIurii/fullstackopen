@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { voteFor } from "../reducers/anecdoteReducer";
-import { updateMessage } from "../reducers/notificationReducer";
+import { showNotification } from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
@@ -11,9 +11,9 @@ const AnecdoteList = () => {
     return [...filteredAnecdotes].sort((a,b) => b.votes - a.votes)
   })
 
-  const vote = (anecdote) => {
-    dispatch(voteFor(anecdote.id))
-    dispatch(updateMessage(anecdote.content))
+  const vote = async (anecdote) => {
+    dispatch(voteFor(anecdote))
+    dispatch(showNotification(anecdote.content, 3000))
   }
 
   return (
